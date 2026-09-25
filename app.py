@@ -3,16 +3,12 @@ from flask import Flask, request, render_template_string, redirect, session
 app = Flask(__name__)
 app.secret_key = "internship-tracker-secret"
 
-
-# DEMO USERS
-
-
+# Demo users - each one has their own internship list (this is the SaaS idea)
 USERS = {
     "asha": {"password": "asha123", "name": "Asha Menon"},
     "ravi": {"password": "ravi123", "name": "Ravi Kumar"}
 }
 
-# Each user has their own list of internship applications
 APPLICATIONS = {
     "asha": [
         {"company": "TechNova", "role": "Web Dev Intern", "status": "Interview", "date": "2026-08-01"},
@@ -29,8 +25,6 @@ STATUS_OPTIONS = ["Applied", "Interview", "Offer", "Rejected"]
 def logged_in():
     return "username" in session
 
-
-# LOGIN PAGE
 
 LOGIN_PAGE = """
 <!DOCTYPE html>
@@ -82,8 +76,6 @@ def logout():
     return redirect("/login")
 
 
-# COMMON PAGE LAYOUT
-
 PAGE = """
 <!DOCTYPE html>
 <html>
@@ -118,8 +110,6 @@ button { padding:8px 15px; background:#2563eb; color:white; border:none; border-
 </html>
 """
 
-
-# DASHBOARD - list all internship applications
 
 @app.route("/")
 def dashboard():
@@ -160,9 +150,7 @@ def dashboard():
     return render_template_string(PAGE, name=USERS[username]["name"], content=rendered)
 
 
-
-# ADD NEW APPLICATION
-
+ADD_FORM = """
 <div class="card">
   <h2>Add Internship Application</h2>
   <form method="post">
@@ -198,8 +186,6 @@ def add():
     return render_template_string(PAGE, name=USERS[username]["name"], content=rendered)
 
 
-# UPDATE STATUS
-
 @app.route("/update/<int:index>", methods=["POST"])
 def update(index):
     if not logged_in():
@@ -210,9 +196,6 @@ def update(index):
         APPLICATIONS[username][index]["status"] = new_status
     return redirect("/")
 
-
-
-# RUN LOCALLY
 
 if __name__ == "__main__":
     app.run(debug=True)
