@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template_string, redirect, session
+
 
 app = Flask(__name__)
 app.secret_key = "internship-tracker-secret"
